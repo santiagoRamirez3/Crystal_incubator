@@ -5,8 +5,8 @@ import os
 
 plt.close()
 
-for i in os.listdir('./csv_data'):
-    df = pd.read_csv('./csv_data/'+i,)
+for i in os.listdir('./CsvData_saved'):
+    df = pd.read_csv('./CsvData_saved/'+i,)
 
     # Convertir la columna 'time' a datetime
     df['time'] = pd.to_datetime(df['time'])
@@ -23,7 +23,8 @@ for i in os.listdir('./csv_data'):
     ax.set_title('Prueba de funcionamiento sistema de control')
     ax.set_ylabel('Temperatura (°C)')
     ax.set_xlabel('Tiempo (h)')
+    ax.set_ylim(np.min(df['setpoint'])-0.2,np.max(df['setpoint'])+0.2)
     ax.legend()
-    plt.savefig('./Result_plots/'+i+'.png', dpi=72)
+    plt.savefig('./Result_plots/'+i+'.png', dpi=300)
     plt.close()
 

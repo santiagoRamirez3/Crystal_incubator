@@ -17,7 +17,7 @@ float temp;
 
 // Variables PID
 double Setpoint, Input, Output;
-double Kp = 100, Ki = 100, Kd = 0.1;
+double Kp = 100, Ki = 70, Kd = 0.1;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 void setup() { 
@@ -30,9 +30,9 @@ void setup() {
   Timer1.attachInterrupt(Dimer, T_int);                // En cada interrupción ejecuta el código Dimer. 
 
   // Inicializar PID
-  Setpoint = 55; // Temperatura objetivo inicial
+  Setpoint = 0; // Temperatura objetivo inicial
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(0, 67); // Ajusta los límites de salida del PID para el control del dimmer
+  myPID.SetOutputLimits(0, 16); // Ajusta los límites de salida del PID para el control del dimmer
 }
 
 void deteccion_Cruce_cero() { 
@@ -58,11 +58,11 @@ void loop () {
   for (int i = 0; i < 10; i++) {
     sensors.requestTemperatures();   //Se envía el comando para leer la temperatura
     average += sensors.getTempCByIndex(0)/10; //Se obtiene la temperatura en ºC
-    delay(1000); // Esperar un poco entre lecturas
+    delay(800); // Esperar un poco entre lecturas
   }
   Input = average;
   myPID.Compute(); // Calcular PID
-  dim = map(Output,0,67,84,17); // Asignar la salida del PID al dimmer
+  dim = map(Output,0,16,84,68); // Asignar la salida del PID al dimmer
   //dim = 42;
   
   // Leer el setpoint desde el puerto serie
@@ -73,6 +73,7 @@ void loop () {
   // Enviar la temperatura actual al PC
   Serial.println(Input);
   Serial.println(dim);
+  //Serial.println(Setpoint);
 
   delay(1000);
 }

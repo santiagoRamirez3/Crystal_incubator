@@ -14,7 +14,7 @@ class Control():
         working_time = 0
 
         fields = ['time','temperature','setpoint','power']
-        filename = 'temperature_data_'+ start_time.strftime("%Y-%m-%d_%H-%M-%S") +'.csv'
+        filename = 'CsvData_saved/temperature_data_'+ start_time.strftime("%Y-%m-%d_%H-%M-%S") +'.csv'
 
 
         with open(filename, 'w') as csvfile:
@@ -40,12 +40,15 @@ class Control():
 
                 temperature = ser.readline().decode().strip()
                 dim = ser.readline().decode().strip()
+                #out = ser.readline().decode().strip()
 
                 power = round(100*(84-int(dim))/84,1) #potencia(float(dim))
                 writer.writerow([datetime.now(),temperature,setpoint,power])
                 time_passed = str(elapsed_time).split('.')[0]
                 print(f"Temp: {temperature}°C, Setpoint: {setpoint}°C, potencia: {power}%, Tiempo(H:MM:SS): {time_passed}")
-            
+                #print(out)
+            setpoint = 0
+            ser.write(f"{setpoint}\n".encode())
             print('Control finalizado con exito')
             ser.close()
         return
