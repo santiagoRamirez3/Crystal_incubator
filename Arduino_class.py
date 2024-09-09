@@ -54,5 +54,5 @@ class Control():
         return
 
 def potencia(dim):
-    P = 422.45*np.arctan((84-dim)*0.0637275) + 455.68
+    P = 422.423042*np.arctan((84-dim)*0.0637419748 - 1.91254700) + 460.0297099823189
     return round(P,1)

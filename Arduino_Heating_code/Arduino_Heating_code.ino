@@ -16,7 +16,7 @@ DallasTemperature sensors(&ourWire); //Se declara una variable u objeto para nue
 
 // Variables PID
 double Setpoint, Input, Output;
-double Kp = 100, Ki = 70, Kd = 0.1;
+double Kp = 100, Ki = 50, Kd = 0.1;
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
 
 void setup() { 
@@ -31,7 +31,7 @@ void setup() {
   // Inicializar PID
   Setpoint = 0; // Temperatura objetivo inicial
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(0, 16); // Ajusta los límites de salida del PID para el control del dimmer
+  myPID.SetOutputLimits(0, 84); // Ajusta los límites de salida del PID para el control del dimmer
 }
 
 void deteccion_Cruce_cero() { 
@@ -61,7 +61,7 @@ void loop () {
   }
   Input = average;
   myPID.Compute(); // Calcular PID
-  dim = map(Output,0,16,84,68); // Asignar la salida del PID al dimmer
+  dim = map(Output,0,84,84,0); // Asignar la salida del PID al dimmer
   //dim = 42;
   
   // Leer el setpoint desde el puerto serie
